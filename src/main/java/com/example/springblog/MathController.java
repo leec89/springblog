@@ -42,8 +42,18 @@ public class MathController {
     @RequestMapping(path = "/{op}/{num1}/{num2}", method = RequestMethod.GET)
     @ResponseBody
     public String chaseGenius(@PathVariable String op, @PathVariable int num1, @PathVariable int num2) {
-        if (op == "add") {
+        if (op.equals("add")) {
             return num1 + " + " + num2 + " = " + (num1 + num2);
-        };
-    return num1 + " + " + num2 + " = " + (num1 + num2);}
+        }
+        if (op.equals("subtract")) {
+            return num2 + " - " + num1 + " = " + (num2 - num1);
+        }
+        if (op.equals("multiply")) {
+            return num1 + " * " + num2 + " = " + (num1 * num2);
+        }
+        if (op.equals("divide")) {
+            return num1 + " / " + num2 + " = " + (num1 / num2);
+        }
+        return "hi";
+    }
 }

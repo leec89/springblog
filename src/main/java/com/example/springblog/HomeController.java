@@ -25,4 +25,10 @@ public class HomeController {
         return "hello-world";
     }
 
+    @GetMapping("/hello1/{inputStr}")
+    public String sayHello(Model vModel, @PathVariable String inputStr) {
+        vModel.addAttribute("theName", inputStr);
+        return "hello";
+    }
+
 }
