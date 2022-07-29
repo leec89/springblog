@@ -10,8 +10,11 @@
 
     <h1>Dice rolled is <span th:text="${diceRoll}"></span></h1>
     <h1>You chose <span th:text="${guessNum}"></span></h1>
+    <h2 th:if="${diceRoll == guessNum}">Lucky roll!</h2>
+    <h2 th:if="${diceRoll != guessNum}">Sorry, poor roll!</h2>
 
-    <h2><a href="/dice-guess">Try Again?</a></h2>
+    <h2><a href="/dice-guess"><button>Choose again</button></a></h2>
+    <h2><a th:href="@{/dice-roll/{id}(id=${guessNum})}"><button>Or re-roll?</button></a></h2>
 
 
 </body>

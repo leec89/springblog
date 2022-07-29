@@ -1,4 +1,4 @@
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Pizza World</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -24,6 +24,17 @@
     </div>
 </nav>
 
-<!--Header Partial-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${'My Blog | ' + title}"></title>
+</head>
 
-<!--Footer Partial-->
+<!--<nav th:fragment="nav">-->
+<!--    <a href="/home">Home</a>-->
+<!--    <a href="/posts">Posts</a>-->
+<!--    <a href="/about-us">About Us</a>-->
+<!--</nav>-->
+
+<footer th:fragment="footer">
+    <p>This is footer</p>
+</footer>

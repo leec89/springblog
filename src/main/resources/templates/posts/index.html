@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials.html :: head('All Posts')"></head>
 <body>
-
+<nav th:replace="partials/partials.html :: nav"></nav>
+<h1>Here are All the Posts</h1>
+<main>
+    <article th:each="post : ${posts}">
+        <h3 th:text="${post.title}"></h3>
+        <p th:text="${post.body}"></p>
+    </article>
+</main>
 </body>
 </html>
