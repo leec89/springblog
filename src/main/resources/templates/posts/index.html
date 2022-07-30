@@ -7,7 +7,11 @@
 <main>
     <article th:each="post : ${posts}">
         <h3 th:text="${post.title}"></h3>
+        <p hidden th:text="${post.id}"></p>
         <p th:text="${post.body}"></p>
+        <form th:action="@{/posts/delete/{id}(id=${post.id})}" th:method="POST">
+            <button>Delete</button>
+        </form>
     </article>
 </main>
 </body>

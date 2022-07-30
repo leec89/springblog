@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials.html :: head('Create Post')"></head>
+<body>
+<nav th:replace="partials/partials.html :: nav"></nav>
+<h1>Submit your Post</h1>
+    <form action="/posts/create" method="POST">
+        <label for="title">Title</label><br>
+        <input type="text" name="title" id="title" placeholder="Blog Title" size="65"><br>
+        <br>
+        <label for="body">Body</label><br>
+        <textarea rows="4" cols="51" name="body" id="body" placeholder="Blog Content"></textarea><br>
+</textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

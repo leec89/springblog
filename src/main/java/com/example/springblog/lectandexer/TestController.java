@@ -31,15 +31,15 @@ public class TestController {
 
     // mini exercise 2 - search for favorite city
 
-    @GetMapping("/citysearch")
+    @GetMapping("citysearch")
     public String returnCitySearchForm() {
-        return "citysearch";
+        return "lectandexer/citysearch";
     }
 
     @PostMapping("citysearch")
     public String returnCitySearchResult(@RequestParam String cityParam, Model vModel) {
         vModel.addAttribute("city", cityParam);
-        return "city-result";
+        return "lectandexer/city-result";
     }
 
     // mini exercise 2 - search for favorite city with redirect
