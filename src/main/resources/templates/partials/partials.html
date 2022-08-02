@@ -1,40 +1,40 @@
-<!--<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">-->
-<!--    <div class="container-fluid">-->
-<!--        <a class="navbar-brand" href="#">Pizza World</a>-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"-->
-<!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--            <ul class="navbar-nav mb-2 mb-lg-0">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link active" aria-current="page" href="#">Order Online</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Menu</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--            <form class="d-flex me-2">-->
-<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-success text-nowrap" type="submit">Search stores near you!</button>-->
-<!--            </form>-->
-<!--            <img src="img/person-fill.svg" class="ms-auto" alt="avatar">-->
-<!--            <button class="btn text-nowrap" type="submit">Sign Up!</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <title th:text="${'My Blog | ' + title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
-<nav th:fragment="nav">
-    <a href="/home">Home</a>
-    <a href="/posts">Posts</a>
-    <a href="/about-us">About Us</a>
+<header th:fragment="header(text)" class="container">
+    <h1 class="text-center display-4 my-4" th:text="${text}"></h1>
+</header>
+
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Spring Blog</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts/create">Write Post</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <footer th:fragment="footer">
     <p>This is footer</p>
 </footer>
+
+<th:block th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
+</th:block>

@@ -3,15 +3,16 @@
 <head th:replace="partials/partials.html :: head('All Posts')"></head>
 <body>
 <nav th:replace="partials/partials.html :: nav"></nav>
-<h1>Here are All the Posts</h1>
-<main>
-    <article th:each="post : ${posts}">
-        <h3 th:text="${post.title}"></h3>
-        <p hidden th:text="${post.id}"></p>
-        <p th:text="${post.body}"></p>
-        <form th:action="@{/posts/delete/{id}(id=${post.id})}" th:method="POST">
-            <button>Delete</button>
-        </form>
+<header th:replace="partials/partials.html :: header('Posts')"></header>
+
+<main class="container">
+    <article th:each="post : ${posts}" th:object="${post}">
+        <a th:href="@{/posts/{id}(id=*{id})}">
+            <h3 th:text="*{title}"></h3>
+        </a>
+        <p>Post ID: <span th:text="*{id}"></span></p>
+        <p>Username: <span th:text="*{user.username}"></span></p>
+        <p th:text="*{body}"></p>
     </article>
 </main>
 </body>
