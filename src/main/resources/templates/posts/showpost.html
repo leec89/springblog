@@ -5,20 +5,20 @@
 
 <nav th:replace="partials/partials.html :: nav"></nav>
 <header th:replace="partials/partials.html :: header(${post.title})"></header>
-<main class="container" th:object="${post}">
-    <p>Post ID: <span th:text="*{id}" >></span></p>
-    <p>Username: <span th:text="*{user.username}"></span></p>
+<main class="container">
+    <p>Post ID: <span th:text="${post.id}" >></span></p>
+    <p>Username: <span th:text="${post.user.username}"></span></p>
     <p th:text="${post.body}"></p>
     <br>
-    <form th:action="@{/posts/edit/{id}(id=*{user.id})}" th:method="GET">
+    <form th:action="@{/posts/{id}/edit(id=${post.id})}" th:method="GET" th:object="${post}">
         <button>Edit</button>
     </form>
     <br>
-    <form th:action="@{/posts/delete/{id}(id=*{id})}" th:method="POST">
+    <form th:action="@{/posts/{id}/delete(id=${post.id})}" th:method="POST" th:object="${post}">
         <button>Delete</button>
     </form>
     <br>
-    <form th:action="@{/posts}">
+    <form th:action="@{/posts}" th:method="GET" th:object="${post}">
         <button>Back to Posts</button>
     </form>
 </main>

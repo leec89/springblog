@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/partials.html :: head('Your Posts')"></head>
+<body>
+<nav th:replace="partials/partials.html :: nav"></nav>
+<header th:replace="partials/partials.html :: header('Your Posts')"></header>
+
+<!--<h2 th:if="${diceRoll == guessNum}">Lucky roll!</h2>-->
+<!--<h2 th:if="${diceRoll != guessNum}">Sorry, poor roll!</h2>-->
+
+<main class="container">
+    <article th:if="${post.user.id == user.id}" th:each="post : ${posts}">
+        <a th:href="@{/posts/{id}(id=${post.id})}">
+            <h3 th:text="${post.title}"></h3>
+        </a>
+        <p>Post ID: <span th:text="${post.id}"></span></p>
+        <p>Username: <span th:text="${post.user.username}"></span></p>
+        <p th:text="${post.body}"></p>
+    </article>
+</main>
+</body>
+</html>
