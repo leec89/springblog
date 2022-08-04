@@ -11,8 +11,8 @@ CREATE TABLE posts (
 
 CREATE TABLE users (
                        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                       email VARCHAR(100) NOT NULL,
+                       email VARCHAR(100) NOT NULL UNIQUE,
                        password VARCHAR(100) NOT NULL,
-                       username VARCHAR(100) NOT NULL,
-                       PRIMARY KEY (id),
+                       username VARCHAR(100) NOT NULL UNIQUE,
+                       PRIMARY KEY (id)
 );

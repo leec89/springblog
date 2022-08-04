@@ -15,10 +15,10 @@ public class User {
     @Column(columnDefinition = "INT UNSIGNED NOT NULL")
     private long id;
 
-    @Column(length=100, nullable = false)
+    @Column(length=100, nullable = false, unique = true)
     private String username;
 
-    @Column(length=100, nullable = false)
+    @Column(length=100, nullable = false, unique = true)
     private String email;
 
     @Column(length=100, nullable = false)
@@ -35,6 +35,14 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important!
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+        posts = copy.posts;
     }
 
     public void setId(long id) {
@@ -74,4 +82,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

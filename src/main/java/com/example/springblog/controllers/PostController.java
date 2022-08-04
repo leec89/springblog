@@ -2,9 +2,10 @@ package com.example.springblog.controllers;
 
 import com.example.springblog.model.Post;
 import com.example.springblog.model.User;
-import com.example.springblog.repository.PostRepository;
-import com.example.springblog.repository.UserRepository;
+import com.example.springblog.repositories.PostRepository;
+import com.example.springblog.repositories.UserRepository;
 import com.example.springblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,6 @@ public class PostController {
     @GetMapping("/posts")
     public String getPosts(Model vModel) {
         List<Post> posts = postDao.findAll();
-//        List<User> users = userDao.findAll();
         vModel.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -65,11 +65,11 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post) {
-        User user = userDao.findById(1L).get();
-        post.setUser(user); // if you don't have a constructor that also takes in the associated user
-        postDao.save(post);
-        emailService.prepareAndSend(post, "Thanks for creating a post");
+    public String createPost(@ModelAttribute Post newPost) {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newPost.setUser(principal);
+        postDao.save(newPost);
+        emailService.prepareAndSend(newPost, "Thanks for creating a new post!");
         return "redirect:/posts";
     }
 
@@ -87,10 +87,12 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPostSubmit(
-            @ModelAttribute Post post,
-            @PathVariable long id
+            @ModelAttribute Post post
     ) {
-        postDao.save(post);
+        Post postToUpdate = postDao.findById(post.getId()).get();
+        postToUpdate.setTitle(post.getTitle());
+        postToUpdate.setBody(post.getBody());
+        postDao.save(postToUpdate);
         return "redirect:/posts";
     }
 
@@ -100,40 +102,6 @@ public class PostController {
     public String deletePost(@PathVariable long id) {
         postDao.deleteById(id);
         return "redirect:/posts";
-    }
-
-    // =================== user URL - single user
-
-    @GetMapping("/user/{id}")
-    public String getUser(Model vModel, @PathVariable long id) {
-        User user = userDao.findById(id).get();
-        vModel.addAttribute("user", user);
-        return "users/showuser";
-    }
-
-    // =================== user CREATE/REGISTER
-
-    @GetMapping("/user/register")
-    public String showUserRegisterForm(Model vModel) {
-        vModel.addAttribute("user", new User());
-        return "users/register";
-    }
-
-    @PostMapping("/user/register")
-    public String registerUser(@ModelAttribute User user) {
-        userDao.save(user);
-        return "redirect:/user/showuser";
-    }
-
-    // =================== user SHOW/VIEW profile
-
-    @GetMapping("/user/profile/{id}")
-    public String getUserPosts(Model vModel, @PathVariable long id) {
-        List<Post> posts = postDao.findAll();
-        User user = userDao.findById(id).get();
-        vModel.addAttribute("user", user);
-        vModel.addAttribute("posts", posts);
-        return "users/profileview";
     }
 
 }
