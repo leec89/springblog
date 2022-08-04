@@ -45,6 +45,7 @@ public class PostsIntegrationTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // ==================== TEST: SETUP
     @Before
     public void setup() throws Exception {
 
@@ -80,7 +81,7 @@ public class PostsIntegrationTests {
         assertNotNull(httpSession);
     }
 
-
+    // ==================== TEST: CREATE POST
     @Test
     public void testCreatePost() throws Exception {
         // Makes a Post request to /posts/create and expect a redirection to the Post
@@ -93,6 +94,7 @@ public class PostsIntegrationTests {
                 .andExpect(status().is3xxRedirection()); // expect on successful post creation, app will redirect user to new page
     }
 
+    // ==================== TEST: SHOW POST
     @Test
     public void testShowPost() throws Exception {
 
@@ -105,6 +107,7 @@ public class PostsIntegrationTests {
                 .andExpect(content().string(containsString(existingPost.getBody())));
     }
 
+    // ==================== TEST: VIEW POST INDEX
     @Test
     public void testPostsIndex() throws Exception {
         Post existingPost = postDao.findAll().get(0);
@@ -118,6 +121,7 @@ public class PostsIntegrationTests {
                 .andExpect(content().string(containsString(existingPost.getTitle())));
     }
 
+    // ==================== TEST: DELETE POST
     @Test
     public void testDeleteAd() throws Exception {
         // Creates a test Post to be deleted
@@ -139,4 +143,26 @@ public class PostsIntegrationTests {
                 .andExpect(status().is3xxRedirection());
     }
 
+    // ==================== TEST: EDIT/UPDATE POST
+
+    @Test
+    public void testEditPost() throws Exception {
+        // Gets the first Post for tests purposes
+        Post post = postDao.findAll().get(0);
+
+        // Makes a Post request to /post/{id}/edit and expect a redirection to the Post show page
+        this.mvc.perform(
+                        post("/posts/" + post.getId() + "/edit").with(csrf())
+                                .session((MockHttpSession) httpSession)
+                                .param("title", "edited title")
+                                .param("body", "edited body"))
+                .andExpect(status().is3xxRedirection());
+
+        // Makes a GET request to /post/{id} and expect a redirection to the Post show page
+        this.mvc.perform(get("/posts/" + post.getId()))
+                .andExpect(status().isOk())
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString("edited title")))
+                .andExpect(content().string(containsString("edited body")));
+    }
 }

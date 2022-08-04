@@ -10,7 +10,6 @@
 <!--    <link rel="stylesheet" href="/css/main.css">-->
     <link rel="stylesheet" href="/css/background_styles.css">
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="script.js" defer></script>
 </head>
 
 <header th:fragment="header(text)" class="container">
@@ -47,7 +46,7 @@
 <!--</nav>-->
 
 <nav th:fragment="nav" class="navbar">
-    <div class="brand-title">Spring Blog</div>
+    <a class="brand-title navbar-brand" href="/">Spring Blog</a>
     <a href="#" class="toggle-button">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -76,7 +75,11 @@
 </nav>
 
 <footer th:fragment="footer">
-    <p>This is footer</p>
+    <div class="footer-button">
+        <form th:action="@{/posts}" th:method="GET">
+            <button>Go to Beginning</button>
+        </form>
+    </div>
 </footer>
 
 <th:block th:fragment="scripts">

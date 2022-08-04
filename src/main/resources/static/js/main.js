@@ -1,5 +1,13 @@
 "use strict";
 (function() {
+
+    const toggleButton = document.getElementsByClassName('toggle-button')[0];
+    const navbarLinks = document.getElementsByClassName('navbar-links')[0];
+
+    toggleButton.addEventListener('click', () => {
+        navbarLinks.classList.toggle('active');
+    })
+
     // code to make the logout form look like a link
     document.querySelector('#logout-link').addEventListener('click', e => {
         e.preventDefault();
@@ -18,10 +26,3 @@
         });
     }
 })();
-
-const toggleButton = document.getElementsByClassName('toggle-button')[0]
-const navbarLinks = document.getElementsByClassName('navbar-links')[0]
-
-toggleButton.addEventListener('click', () => {
-    navbarLinks.classList.toggle('active')
-})
