@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @Controller
 public class PostController {
@@ -38,12 +39,19 @@ public class PostController {
     //    ~2:17:25 - only testing to show a delete - not how to code a delete
     //    ~2:20:25 - show a specific post
 
+    // =================== random number generator to set pic id index starting point
+
+    Random rand = new Random();
+    int RandomPicIndex = rand.nextInt(10000) % 40;
+
+
     // =================== posts URL - ALL posts
 
     @GetMapping("/posts")
     public String getPosts(Model vModel) {
         List<Post> posts = postDao.findAll();
         vModel.addAttribute("posts", posts);
+        vModel.addAttribute("randomPicIndex", RandomPicIndex);
         return "posts/index";
     }
 
@@ -53,6 +61,7 @@ public class PostController {
     public String getPost(Model vModel, @PathVariable long id) {
         Post post = postDao.findById(id).get();
         vModel.addAttribute("post", post);
+        vModel.addAttribute("randomPicIndex", RandomPicIndex);
         return "posts/showpost";
     }
 

@@ -7,7 +7,8 @@
 
 <nav th:replace="partials/partials.html :: nav"></nav>
 <header th:replace="partials/partials.html :: header(${post.title})"></header>
-<main class="container">
+<main class="container" th:with="PicNumber=${randomPicIndex + post.id}">
+    <img class="img" th:src="@{/images/{id}.jpg(id=${PicNumber})}" />
     <p>Post ID: <span th:text="${post.id}" >></span></p>
     <p>Username: <span th:text="${post.user.username}"></span></p>
     <p th:text="${post.body}"></p>
