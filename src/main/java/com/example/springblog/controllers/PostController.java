@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Controller
@@ -45,7 +46,7 @@ public class PostController {
     int RandomPicIndex = rand.nextInt(10000) % 40;
 
 
-    // =================== posts URL - ALL posts
+    // =================== posts URL - view ALL posts
 
     @GetMapping("/posts")
     public String getPosts(Model vModel) {
@@ -55,7 +56,7 @@ public class PostController {
         return "posts/index";
     }
 
-    // =================== post URL - single post
+    // =================== post URL - view single post
 
     @GetMapping("/posts/{id}")
     public String getPost(Model vModel, @PathVariable long id) {
@@ -65,6 +66,17 @@ public class PostController {
         return "posts/showpost";
     }
 
+    // =================== user SHOW/VIEW profile - view user profile
+
+    @GetMapping("/user/profile")
+    public String getUserPosts(Model vModel) {
+        List<Post> posts = postDao.findAll();
+//        User user = userDao.findById(id).get();
+//        vModel.addAttribute("user", user);
+        vModel.addAttribute("posts", posts);
+        vModel.addAttribute("randomPicIndex", RandomPicIndex);
+        return "users/profileview";
+    }
     // =================== posts CREATE
 
     @GetMapping("/posts/create")
@@ -77,8 +89,11 @@ public class PostController {
     public String createPost(@ModelAttribute Post newPost) {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newPost.setUser(principal);
+        String emailSubject = "A new SpringBlog post has been created!";
+        String emailBlurb = "Thank you for your new post to SpringBlog!\r\n\r\nThe title of your post submitted was\r\n[" + newPost.getTitle() + "].\r\nIf this was not expected, please contact customer support.";
+        String emailTo = principal.getEmail();
         postDao.save(newPost);
-        emailService.prepareAndSend(newPost, "Thanks for creating a new post!");
+        emailService.prepareAndSend(emailSubject, emailBlurb, emailTo);
         return "redirect:/posts";
     }
 
@@ -101,15 +116,32 @@ public class PostController {
         Post postToUpdate = postDao.findById(post.getId()).get();
         postToUpdate.setTitle(post.getTitle());
         postToUpdate.setBody(post.getBody());
+        String emailTo = postToUpdate.getUser().getEmail();
+
+        String emailSubject = "A SpringBlog post has been edited!";
+        String emailBlurb = "Thank you for your edit to SpringBlog!\r\n\r\nThe title of your post edited was\r\n[" + post.getTitle() + "].\r\nIf this was not expected, please contact customer support.";
         postDao.save(postToUpdate);
+        emailService.prepareAndSend(emailSubject, emailBlurb, emailTo);
+
         return "redirect:/posts";
     }
 
     // =================== posts DELETE
 
     @PostMapping("/posts/{id}/delete")
-    public String deletePost(@PathVariable long id) {
+    public String deletePost(
+            @PathVariable long id,
+            @ModelAttribute Post post
+    ) {
+
+        Post postToDelete = postDao.findById(post.getId()).get();
+        String emailTo = postToDelete.getUser().getEmail();
+
+        String emailSubject = "A SpringBlog post has been deleted!";
+        String emailBlurb = "A SpringBlog has been deleted!\r\n\r\nThe title of the post deleted was\r\n[" + postToDelete.getTitle() + "].\r\n If this was not expected, please contact customer support.";
         postDao.deleteById(id);
+        emailService.prepareAndSend(emailSubject, emailBlurb, emailTo);
+
         return "redirect:/posts";
     }
 

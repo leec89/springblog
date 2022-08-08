@@ -13,16 +13,16 @@
     <p>Username: <span th:text="${post.user.username}"></span></p>
     <p th:text="${post.body}"></p>
     <br>
-    <div class="show-buttons">
-        <form th:action="@{/posts/{id}/edit(id=${post.id})}" th:method="GET" th:object="${post}" th:if="${#authentication.getName() == post.user.getUsername()}">
+    <div class="show-buttons" th:object="${post}" >
+        <form th:action="@{/posts/{id}/edit(id=*{id})}" th:method="GET" th:if="*{#authentication.getName() == user.getUsername()}">
             <button>Edit</button>
         </form>
         <br>
-        <form th:action="@{/posts}" th:method="GET" th:object="${post}">
+        <form th:action="@{/posts}" th:method="GET">
             <button>Back to Posts</button>
         </form>
         <br>
-        <form th:action="@{/posts/{id}/delete(id=${post.id})}" th:method="POST" th:object="${post}" th:if="${#authentication.getName() == post.user.getUsername()}">
+        <form th:action="@{/posts/{id}/delete(id=*{id})}" th:method="POST" th:if="*{#authentication.getName() == user.getUsername()}">
             <button id="delete-post-btn">Delete</button>
         </form>
     </div>

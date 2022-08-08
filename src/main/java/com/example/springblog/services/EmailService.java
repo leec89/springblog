@@ -18,10 +18,11 @@ public class EmailService {
     @Value("${spring.sendgrid.api-key}")
     private String sendgridApiKey;
 
-    public void prepareAndSend(Post post, String subject) {
+    public void prepareAndSend(String subject, String emailContent, String emailTo) {
         Email from = new Email("leec89@protonmail.com");
-        Email to = new Email("leec89@gmail.com");
-        Content content = new Content("text/plain", "Thank you for posting to this SpringBlog! The title of your post submitted was [" + post.getTitle() + "]. If this was not you, please contact customer support.");
+        Email to = new Email(emailTo);
+        Content content = new Content("text/plain", emailContent);
+//        Content contentTest = new Content("text/plain", "");
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid(sendgridApiKey);

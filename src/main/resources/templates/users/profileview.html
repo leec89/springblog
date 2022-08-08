@@ -10,13 +10,16 @@
 <!--<h2 th:if="${diceRoll != guessNum}">Sorry, poor roll!</h2>-->
 <main class="container">
     <div class="row gy-4">
-        <div class="col-12 col-md-6" th:if="${#authentication.getName() == post.user.getUsername()}" th:each="post : ${posts}" th:object="${post}">
+        <div class="col-12 col-md-6" th:if="${#authentication.getName() == post.user.getUsername()}" th:each="post : ${posts}">
             <article class="card">
-                <div class="card-body">
-                    <h3 class="card-title" th:text="*{title}"></h3>
-                    <p>By <span th:text="*{user.username}"></span></p>
-                    <p th:text="*{body}"></p>
-                    <a th:href="@{/posts/{id}(id=*{id})}">Read more</a>
+<!--                <div class="card-body">-->
+<!--                    <h3 class="card-title" th:text="*{title}"></h3>-->
+                <div class="card-body" th:with="PicNumber=${randomPicIndex + post.id}">
+                    <h3 class="card-title" th:text="${post.title}"></h3>
+                    <img class="img" src="../static/images/photo.png" th:src="@{/images/{id}.jpg(id=${PicNumber})}" />
+                    <p>By <span th:text="${post.user.username}"></span></p>
+                    <p th:text="${post.body}"></p>
+                    <a th:href="@{/posts/{id}(id=${post.id})}">Read more</a>
                 </div>
             </article>
         </div>
